@@ -1,27 +1,28 @@
-/* 기본 배경 및 전체 화면 설정 */
+/* 글로벌 스타일 초기화 */
 body {
   margin: 0;
   padding: 0;
-  background-color: #1e1e1e;
+  background-color: #ffffff; /* 전체 배경을 피그마 프레임처럼 흰색으로 변경 */
   font-family: sans-serif;
+  overflow-x: hidden;
 }
 
+/* 1. 컨테이너의 여백(Padding)을 없애서 꽉 차게 만듭니다 */
 .container {
   min-height: 100vh;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
+  padding: 0;
   box-sizing: border-box;
 }
 
-/* 피그마 안의 흰색 메인 카드 보드 스타일 */
+/* 2. 카드가 고정 크기를 벗어나 브라우저 화면을 완전히 채우도록 수정 (가장 중요 ⭐) */
 .card {
   background: #ffffff;
-  max-width: 960px;
   width: 100%;
-  height: 640px;
-  border-radius: 0px;
+  height: 100vh; /* 화면 높이를 100% 가득 채움 */
   position: relative;
   display: flex;
   flex-direction: column;
@@ -31,7 +32,58 @@ body {
   padding: 60px;
 }
 
-/* 로고 위치와 크기 설정 (효과 제거 원본 상태 유지) */
+/* --- 첫 페이지 (START) 스타일 --- */
+.start-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.start-logo-box {
+  margin-bottom: 24px;
+}
+
+.start-logo-img {
+  width: 220px;
+  height: auto;
+  display: block;
+}
+
+.start-title {
+  font-size: 52px;
+  font-family: "Georgia", "Times New Roman", serif;
+  font-weight: 400;
+  margin: 0;
+  color: #000000;
+  letter-spacing: -0.5px;
+}
+
+.start-subtitle {
+  font-size: 26px;
+  font-weight: bold;
+  margin-top: 12px;
+  margin-bottom: 55px;
+  color: #000000;
+}
+
+.btn-start {
+  background-color: #f3bce7;
+  border: none;
+  color: #000000;
+  padding: 16px 70px;
+  border-radius: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.btn-start:hover {
+  opacity: 0.85;
+}
+
+/* --- 설문 진행 페이지 스타일 --- */
 .logo-container {
   position: absolute;
   top: 50px;
@@ -108,7 +160,7 @@ body {
   font-weight: 500;
 }
 
-/* 하단 내비게이션 위치 설정 */
+/* 하단 내비게이션 위치 설정 (화면 양 끝에 이쁘게 안착합니다) */
 .nav-left {
   position: absolute;
   bottom: 50px;
@@ -121,15 +173,13 @@ body {
   right: 60px;
 }
 
-/* [피그마 매칭 스타일] 하단 좌/우 이동 사각형 버튼 공통 디자인 */
 .btn-prev,
 .btn-next {
-  background: #fdf2f8; /* 피그마의 아주 연하고 부드러운 핑크빛 도는 라벤더계열 배경색 반영 */
-  background-color: #fbcfe8; /* 피그마 컴포넌트 핑크 매칭 */
+  background-color: #fbcfe8;
   border: none;
   color: #000000;
   padding: 12px 20px;
-  border-radius: 8px; /* 모서리를 부드럽게 살린 라운딩 스퀘어 */
+  border-radius: 8px;
   font-weight: bold;
   font-size: 13px;
   cursor: pointer;
@@ -139,23 +189,23 @@ body {
 .btn-prev:hover,
 .btn-next:hover {
   opacity: 0.85;
-  background-color: #f9a8d4; /* 마우스 올렸을 때 살짝 더 선명해지는 핑크 효과 */
+  background-color: #f9a8d4;
 }
 
-/* 결과 UI 및 나머지 스타일 베이스 */
+/* 결과 및 로딩 UI 디자인 */
 .loading-text {
-  color: #ffffff;
+  color: #1e1e1e; /* 전체 배경이 밝아졌으므로 텍스트를 어둡게 변경 */
   font-size: 20px;
   font-weight: bold;
 }
 
 .result-card {
   background: white;
-  max-width: 600px;
+  max-width: 640px;
   width: 100%;
   padding: 40px;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
 }
 

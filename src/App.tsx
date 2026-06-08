@@ -25,7 +25,7 @@ interface AnalyzeResponse {
   report: Report;
 }
 
-type Step = "SURVEY" | "LOADING" | "RESULT";
+type Step = "START" | "SURVEY" | "LOADING" | "RESULT";
 
 const QUESTIONS: string[] = Array.from(
   { length: 25 },
@@ -145,7 +145,7 @@ const RadarChart = ({ scores }: { scores: Scores }) => {
 };
 
 export default function PersonalityTest() {
-  const [step, setStep] = useState<Step>("SURVEY");
+  const [step, setStep] = useState<Step>("START");
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [answers, setAnswers] = useState<(number | null)[]>(
     Array(25).fill(null)
@@ -157,17 +157,9 @@ export default function PersonalityTest() {
     const updatedAnswers = [...answers];
     updatedAnswers[currentIndex] = score;
     setAnswers(updatedAnswers);
-
-    // 선택 시 다음 문항으로 자동 스크롤되는 메커니즘 유지
-    setTimeout(() => {
-      if (currentIndex < QUESTIONS.length - 1) {
-        setCurrentIndex(currentIndex + 1);
-      }
-    }, 250);
   };
 
   const handleSubmit = async () => {
-    // 마지막 문항을 선택 안 했을 수도 있으니 최소한의 체크
     if (answers[currentIndex] === null) {
       alert("마지막 문항의 답변을 선택해주세요!");
       return;
@@ -197,6 +189,23 @@ export default function PersonalityTest() {
 
   return (
     <div className="container">
+      {/* 1. 피그마 시안 맞춰 수정한 첫 페이지 */}
+      {step === "START" && (
+        <div className="card start-card">
+          <div className="start-content">
+            {/* 상단에 깨끗하게 들어가는 로고 이미지 */}
+            <div className="start-logo-box">
+              <img src={logoImg} alt="WAD 로고" className="start-logo-img" />
+            </div>
+            <h1 className="start-title">WhoAmI</h1>
+            <p className="start-subtitle">성격 유형 검사</p>
+            <button className="btn-start" onClick={() => setStep("SURVEY")}>
+              테스트 시작하기
+            </button>
+          </div>
+        </div>
+      )}
+
       {step === "SURVEY" && (
         <div className="card">
           <div className="logo-container">
@@ -233,25 +242,27 @@ export default function PersonalityTest() {
             })}
           </div>
 
-          {/* 오른쪽 하단 버튼 제어 영역 */}
           <div className="nav-right">
             {currentIndex < QUESTIONS.length - 1 ? (
-              /* 1~24번째 질문일 때는 다음 문항 버튼 표시 */
               <button
-                onClick={() => setCurrentIndex(currentIndex + 1)}
+                onClick={() => {
+                  if (answers[currentIndex] === null) {
+                    alert("답변을 선택해주세요!");
+                  } else {
+                    setCurrentIndex(currentIndex + 1);
+                  }
+                }}
                 className="btn-next"
               >
                 다음 문항 →
               </button>
             ) : (
-              /* 25번째(마지막) 질문일 때는 결과 확인 버튼으로 고정 (선택 여부 관계없이 유지) */
               <button onClick={handleSubmit} className="btn-next result-btn">
                 결과 확인 →
               </button>
             )}
           </div>
 
-          {/* 왼쪽 하단 이전 문항 버튼 제어 영역 */}
           {currentIndex > 0 && (
             <div className="nav-left">
               <button
@@ -311,7 +322,7 @@ export default function PersonalityTest() {
           <div className="action-buttons">
             <button
               onClick={() => {
-                setStep("SURVEY");
+                setStep("START");
                 setCurrentIndex(0);
                 setAnswers(Array(25).fill(null));
               }}
@@ -319,7 +330,9 @@ export default function PersonalityTest() {
             >
               ↻ 다시 검사하기
             </button>
-            <button className="btn-primary">⌂ 메인으로 돌아가기</button>
+            <button onClick={() => setStep("START")} className="btn-primary">
+              ⌂ 메인으로 돌아가기
+            </button>
           </div>
         </div>
       )}
