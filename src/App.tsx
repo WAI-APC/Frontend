@@ -149,32 +149,7 @@ export default function PersonalityTest() {
     Array(25).fill(null)
   );
 
-  const [result, setResult] = useState<AnalyzeResponse | null>({
-    type: "균형형 ⚖️",
-    scores: {
-      social: 54,
-      openness: 63,
-      thinking: 61,
-      planning: 71,
-      stability: 68,
-    },
-    report: {
-      personality: "조화로운 균형감각으로 목표를 향해 나아가는 유형입니다.",
-      strengths: [
-        "계획적이고 책임감이 강하며, 사람들과의 관계를 잘 형성합니다.",
-      ],
-      weaknesses: [
-        "완벽을 추구하는 경향이 있어 스스로에게 압박을 줄 때가 있습니다.",
-      ],
-      relationship_style:
-        "상대방의 감정을 잘 이해하며, 신뢰를 바탕으로 깊은 관계를 형성합니다.",
-      study_style:
-        "체계적으로 계획을 세워 학습하며, 이해한 내용을 실제로 적용하는 데 강합니다.",
-      stress_pattern:
-        "갈등 상황에서 스트레스를 받으나, 이성적으로 해결하려 노력합니다.",
-      recommended_environment: "안정적이고 협력적인 팀 환경",
-    },
-  });
+  const [result, setResult] = useState<AnalyzeResponse | null>(null);
 
   const handleSelectAnswer = (score: number) => {
     const updatedAnswers = [...answers];
@@ -186,9 +161,25 @@ export default function PersonalityTest() {
     }, 250);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setStep("LOADING");
-    setTimeout(() => setStep("RESULT"), 1500);
+    try {
+      const response = await fetch("http://localhost:8000/api/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answers: answers }),
+      });
+      if (!response.ok) throw new Error();
+      const data = await response.json();
+      setResult(data);
+      setStep("RESULT");
+    } catch (error) {
+      console.error(error);
+      alert(
+        "서버 연결에 실패했습니다. FastAPI 서버가 켜져 있는지 확인해주세요."
+      );
+      setStep("SURVEY");
+    }
   };
 
   return (
@@ -198,15 +189,15 @@ export default function PersonalityTest() {
           <div className="logo">WAI✨</div>
           <div className="question">{QUESTIONS[currentIndex]}</div>
           <div className="options">
-            {[1, 2, 3, 4, 5].map((score) => {
+            {[1, 2, 3, 4].map((score) => {
               const isSelected = answers[currentIndex] === score;
               const labels = [
                 "매우 그렇지 않다",
                 "그렇지 않다",
-                "보통이다",
                 "그렇다",
                 "매우 그렇다",
               ];
+
               return (
                 <div key={score} className="option">
                   <button

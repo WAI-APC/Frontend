@@ -33,30 +33,35 @@
 .question {
   margin-top: 80px;
   text-align: center;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   white-space: pre-wrap;
   margin-bottom: 40px;
   color: #333;
 }
+
+/* 선택지 영역 정렬 (align-items를 flex-start로 맞춰서 버튼들을 가지런히 정렬) */
 .options {
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  gap: 20px;
+  align-items: flex-start;
+  gap: 30px;
   width: 100%;
-  margin-top: 40px;
+  margin-top: 60px;
+  height: 120px;
 }
 .option {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  width: 70px;
+  gap: 12px;
+  width: 90px;
 }
+
+/* 모든 동그라미 버튼 동일한 크기 */
 .circle-btn {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   border: 2px solid #e5e7eb;
   background: white;
@@ -64,17 +69,21 @@
   transition: 0.2s;
   outline: none;
 }
+
+/* 선택되었을 때 색상 */
 .circle-btn.selected {
   background: #f8bbd0;
   border-color: #f8bbd0;
 }
+
 .option-label {
-  font-size: 12px;
+  font-size: 13px;
   color: #888;
   text-align: center;
   word-break: keep-all;
-  line-height: 1.2;
+  line-height: 1.3;
 }
+
 .nav-right {
   position: absolute;
   bottom: 30px;
@@ -108,6 +117,7 @@
   background: #f48fb1;
 }
 
+/* 결과 페이지 스타일 */
 .result-card {
   background: white;
   max-width: 600px;
@@ -141,13 +151,11 @@
   color: #666;
   font-size: 14px;
 }
-
 .radar-container {
   display: flex;
   justify-content: center;
   margin: 30px 0;
 }
-
 .report-box {
   background: #fafafa;
   padding: 24px;
@@ -198,7 +206,6 @@
   line-height: 1.5;
   word-break: keep-all;
 }
-
 .action-buttons {
   display: flex;
   gap: 16px;
