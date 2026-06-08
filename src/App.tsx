@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 
 import logoImg from "./assets/logo.png";
@@ -27,10 +27,7 @@ interface AnalyzeResponse {
 
 type Step = "START" | "SURVEY" | "LOADING" | "RESULT";
 
-const QUESTIONS: string[] = Array.from(
-  { length: 25 },
-  (_, i) => `${i + 1}번째 질문\n2학년 2반이신 경향이 있으십니까?`
-);
+
 
 const ReportCard = ({
   icon,
@@ -147,11 +144,22 @@ const RadarChart = ({ scores }: { scores: Scores }) => {
 export default function PersonalityTest() {
   const [step, setStep] = useState<Step>("START");
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [answers, setAnswers] = useState<(number | null)[]>(
-    Array(25).fill(null)
-  );
+  const [answers, setAnswers] = useState<(number | null)[]>([]);
+
+  const [questions, setQuestions] = useState<any[]>([]);
+
 
   const [result, setResult] = useState<AnalyzeResponse | null>(null);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/questions")
+      .then((res) => res.json())
+      .then((data) => {
+        setQuestions(data);
+        setAnswers(Array(data.length).fill(null));
+      })
+      .catch((err) => console.error(err));
+  }, []);
 
   const handleSelectAnswer = (score: number) => {
     const updatedAnswers = [...answers];
@@ -185,7 +193,14 @@ export default function PersonalityTest() {
     }
   };
 
-  const [qIndex, qText] = QUESTIONS[currentIndex].split("\n");
+  const currentQuestion = questions[currentIndex];
+
+  const questionText =
+    typeof currentQuestion === "string"
+      ? currentQuestion
+      : currentQuestion?.text ??
+        currentQuestion?.question ??
+        "";
 
   return (
     <div className="container">
@@ -195,11 +210,23 @@ export default function PersonalityTest() {
           <div className="start-content">
             {/* 상단에 깨끗하게 들어가는 로고 이미지 */}
             <div className="start-logo-box">
-              <img src={logoImg} alt="WAD 로고" className="start-logo-img" />
+            <img
+                  src={logoImg}
+                  alt="WAD 로고"
+                  className="logo-image"
+                  onClick={() => setStep("START")}
+                  style={{ cursor: "pointer" }}
+                />
             </div>
             <h1 className="start-title">WhoAmI</h1>
             <p className="start-subtitle">성격 유형 검사</p>
-            <button className="btn-start" onClick={() => setStep("SURVEY")}>
+            <button className="btn-start" onClick={() => {
+                if (questions.length === 0) {
+                  alert("질문 로딩 중입니다");
+                  return;
+                }
+                setStep("SURVEY");
+              }}>
               테스트 시작하기
             </button>
           </div>
@@ -209,12 +236,23 @@ export default function PersonalityTest() {
       {step === "SURVEY" && (
         <div className="card">
           <div className="logo-container">
-            <img src={logoImg} alt="WAD 로고" className="logo-image" />
+          <img
+                src={logoImg}
+                alt="WAD 로고"
+                className="logo-image"
+                onClick={() => setStep("START")}
+                style={{ cursor: "pointer" }}
+              />
           </div>
 
           <div className="question-block">
-            <div className="question-idx">{qIndex}</div>
-            <div className="question-main">{qText}</div>
+            <div className="question-idx">
+              Q.{currentIndex + 1}
+            </div>
+
+            <div className="question-main">
+              {questionText}
+            </div>
           </div>
 
           <div className="options">
@@ -243,11 +281,12 @@ export default function PersonalityTest() {
           </div>
 
           <div className="nav-right">
-            {currentIndex < QUESTIONS.length - 1 ? (
+            {currentIndex < questions.length - 1 ? (
               <button
                 onClick={() => {
                   if (answers[currentIndex] === null) {
-                    alert("답변을 선택해주세요!");
+                    alert("현재 문항을 먼저 선택해주세요!");
+                    return;
                   } else {
                     setCurrentIndex(currentIndex + 1);
                   }
@@ -324,7 +363,7 @@ export default function PersonalityTest() {
               onClick={() => {
                 setStep("START");
                 setCurrentIndex(0);
-                setAnswers(Array(25).fill(null));
+                setAnswers(Array(questions.length).fill(null));
               }}
               className="btn-outline"
             >
