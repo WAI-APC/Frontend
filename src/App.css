@@ -1,136 +1,169 @@
+/* 기본 배경 및 전체 화면 설정 */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1e1e1e;
+  font-family: sans-serif;
+}
+
 .container {
   min-height: 100vh;
-  background-color: #333333;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  font-family: sans-serif;
+  padding: 40px 20px;
+  box-sizing: border-box;
 }
+
+/* 피그마 안의 흰색 메인 카드 보드 스타일 */
 .card {
-  background: white;
-  max-width: 800px;
+  background: #ffffff;
+  max-width: 960px;
   width: 100%;
-  padding: 40px;
-  border-radius: 30px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  height: 640px;
+  border-radius: 0px;
   position: relative;
-  min-height: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   box-sizing: border-box;
-}
-.logo {
-  position: absolute;
-  top: 30px;
-  left: 30px;
-  font-size: 24px;
-  font-weight: 900;
-  font-style: italic;
-  color: #f48fb1;
-}
-.question {
-  margin-top: 80px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  white-space: pre-wrap;
-  margin-bottom: 40px;
-  color: #333;
+  padding: 60px;
 }
 
-/* 선택지 영역 정렬 (align-items를 flex-start로 맞춰서 버튼들을 가지런히 정렬) */
+/* 로고 위치와 크기 설정 (효과 제거 원본 상태 유지) */
+.logo-container {
+  position: absolute;
+  top: 50px;
+  left: 60px;
+}
+
+.logo-image {
+  width: 140px;
+  height: auto;
+  display: block;
+}
+
+/* 질문 텍스트 블록 정렬 */
+.question-block {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 50px;
+}
+
+.question-idx {
+  font-size: 16px;
+  color: #666666;
+  margin-bottom: 8px;
+}
+
+.question-main {
+  font-size: 24px;
+  font-weight: bold;
+  color: #000000;
+  white-space: pre-wrap;
+}
+
+/* 선택지 영역 */
 .options {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 30px;
+  gap: 50px;
   width: 100%;
-  margin-top: 60px;
   height: 120px;
 }
+
 .option {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  width: 90px;
+  gap: 14px;
+  width: 110px;
+  cursor: pointer;
 }
 
-/* 모든 동그라미 버튼 동일한 크기 */
 .circle-btn {
-  width: 56px;
-  height: 56px;
+  width: 58px;
+  height: 58px;
   border-radius: 50%;
-  border: 2px solid #e5e7eb;
-  background: white;
+  border: 1px solid #000000;
+  background: #ffffff;
   cursor: pointer;
-  transition: 0.2s;
+  transition: background 0.15s ease;
   outline: none;
 }
 
-/* 선택되었을 때 색상 */
 .circle-btn.selected {
-  background: #f8bbd0;
-  border-color: #f8bbd0;
+  background: #ffbde7;
+  border-color: #000000;
 }
 
 .option-label {
-  font-size: 13px;
-  color: #888;
+  font-size: 12px;
+  color: #333333;
   text-align: center;
   word-break: keep-all;
-  line-height: 1.3;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+/* 하단 내비게이션 위치 설정 */
+.nav-left {
+  position: absolute;
+  bottom: 50px;
+  left: 60px;
 }
 
 .nav-right {
   position: absolute;
-  bottom: 30px;
-  right: 30px;
-}
-.nav-left {
-  position: absolute;
-  bottom: 30px;
-  left: 30px;
-}
-.btn-prev {
-  background: none;
-  border: none;
-  color: #999;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 14px;
-}
-.btn-next {
-  background: #f8bbd0;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.2s;
-  font-size: 14px;
-}
-.btn-next:hover {
-  background: #f48fb1;
+  bottom: 50px;
+  right: 60px;
 }
 
-/* 결과 페이지 스타일 */
+/* [피그마 매칭 스타일] 하단 좌/우 이동 사각형 버튼 공통 디자인 */
+.btn-prev,
+.btn-next {
+  background: #fdf2f8; /* 피그마의 아주 연하고 부드러운 핑크빛 도는 라벤더계열 배경색 반영 */
+  background-color: #fbcfe8; /* 피그마 컴포넌트 핑크 매칭 */
+  border: none;
+  color: #000000;
+  padding: 12px 20px;
+  border-radius: 8px; /* 모서리를 부드럽게 살린 라운딩 스퀘어 */
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s, opacity 0.2s;
+}
+
+.btn-prev:hover,
+.btn-next:hover {
+  opacity: 0.85;
+  background-color: #f9a8d4; /* 마우스 올렸을 때 살짝 더 선명해지는 핑크 효과 */
+}
+
+/* 결과 UI 및 나머지 스타일 베이스 */
+.loading-text {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: bold;
+}
+
 .result-card {
   background: white;
   max-width: 600px;
   width: 100%;
   padding: 40px;
-  border-radius: 30px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
 }
+
 .result-header {
   text-align: center;
   margin-bottom: 30px;
 }
+
 .badge {
   background: #f3e5f5;
   color: #9c27b0;
@@ -141,27 +174,32 @@
   display: inline-block;
   margin-bottom: 10px;
 }
+
 .title-type {
   font-size: 40px;
   font-weight: 900;
   color: #7e57c2;
   margin: 10px 0;
 }
+
 .desc-type {
   color: #666;
   font-size: 14px;
 }
+
 .radar-container {
   display: flex;
   justify-content: center;
   margin: 30px 0;
 }
+
 .report-box {
   background: #fafafa;
   padding: 24px;
   border-radius: 16px;
   border: 1px solid #eee;
 }
+
 .report-title {
   display: flex;
   align-items: center;
@@ -171,6 +209,7 @@
   margin-bottom: 20px;
   color: #333;
 }
+
 .report-item {
   display: flex;
   background: white;
@@ -181,6 +220,7 @@
   border: 1px solid #fce4ec;
   align-items: flex-start;
 }
+
 .report-icon {
   width: 48px;
   height: 48px;
@@ -194,23 +234,27 @@
   margin-right: 16px;
   color: #f48fb1;
 }
+
 .report-text-title {
   font-weight: bold;
   margin-bottom: 4px;
   color: #333;
   font-size: 16px;
 }
+
 .report-text-desc {
   font-size: 14px;
   color: #666;
   line-height: 1.5;
   word-break: keep-all;
 }
+
 .action-buttons {
   display: flex;
   gap: 16px;
   margin-top: 30px;
 }
+
 .btn-outline {
   flex: 1;
   padding: 14px;
@@ -222,6 +266,7 @@
   cursor: pointer;
   font-size: 14px;
 }
+
 .btn-primary {
   flex: 1;
   padding: 14px;
@@ -232,9 +277,4 @@
   color: white;
   cursor: pointer;
   font-size: 14px;
-}
-.loading-text {
-  color: white;
-  font-size: 20px;
-  font-weight: bold;
 }

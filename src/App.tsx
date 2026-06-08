@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./App.css";
 
+import logoImg from "./assets/logo.png";
+
 interface Scores {
   social: number;
   openness: number;
@@ -27,7 +29,7 @@ type Step = "SURVEY" | "LOADING" | "RESULT";
 
 const QUESTIONS: string[] = Array.from(
   { length: 25 },
-  (_, i) => `${i + 1}번째 질문\n어쩌구 저쩌구 으으으아아아아`
+  (_, i) => `${i + 1}번째 질문\n2학년 2반이신 경향이 있으십니까?`
 );
 
 const ReportCard = ({
@@ -155,13 +157,22 @@ export default function PersonalityTest() {
     const updatedAnswers = [...answers];
     updatedAnswers[currentIndex] = score;
     setAnswers(updatedAnswers);
+
+    // 선택 시 다음 문항으로 자동 스크롤되는 메커니즘 유지
     setTimeout(() => {
-      if (currentIndex < QUESTIONS.length - 1)
+      if (currentIndex < QUESTIONS.length - 1) {
         setCurrentIndex(currentIndex + 1);
+      }
     }, 250);
   };
 
   const handleSubmit = async () => {
+    // 마지막 문항을 선택 안 했을 수도 있으니 최소한의 체크
+    if (answers[currentIndex] === null) {
+      alert("마지막 문항의 답변을 선택해주세요!");
+      return;
+    }
+
     setStep("LOADING");
     try {
       const response = await fetch("http://localhost:8000/api/analyze", {
@@ -182,26 +193,38 @@ export default function PersonalityTest() {
     }
   };
 
+  const [qIndex, qText] = QUESTIONS[currentIndex].split("\n");
+
   return (
     <div className="container">
       {step === "SURVEY" && (
         <div className="card">
-          <div className="logo">WAI✨</div>
-          <div className="question">{QUESTIONS[currentIndex]}</div>
+          <div className="logo-container">
+            <img src={logoImg} alt="WAD 로고" className="logo-image" />
+          </div>
+
+          <div className="question-block">
+            <div className="question-idx">{qIndex}</div>
+            <div className="question-main">{qText}</div>
+          </div>
+
           <div className="options">
             {[1, 2, 3, 4].map((score) => {
               const isSelected = answers[currentIndex] === score;
               const labels = [
                 "매우 그렇지 않다",
-                "그렇지 않다",
-                "그렇다",
+                "그렇지 않은 편이다",
+                "그런 편이다",
                 "매우 그렇다",
               ];
 
               return (
-                <div key={score} className="option">
+                <div
+                  key={score}
+                  className="option"
+                  onClick={() => handleSelectAnswer(score)}
+                >
                   <button
-                    onClick={() => handleSelectAnswer(score)}
                     className={`circle-btn ${isSelected ? "selected" : ""}`}
                   />
                   <span className="option-label">{labels[score - 1]}</span>
@@ -209,20 +232,26 @@ export default function PersonalityTest() {
               );
             })}
           </div>
+
+          {/* 오른쪽 하단 버튼 제어 영역 */}
           <div className="nav-right">
-            {currentIndex === QUESTIONS.length - 1 ? (
-              <button onClick={handleSubmit} className="btn-next">
-                결과 확인 →
-              </button>
-            ) : (
+            {currentIndex < QUESTIONS.length - 1 ? (
+              /* 1~24번째 질문일 때는 다음 문항 버튼 표시 */
               <button
                 onClick={() => setCurrentIndex(currentIndex + 1)}
                 className="btn-next"
               >
                 다음 문항 →
               </button>
+            ) : (
+              /* 25번째(마지막) 질문일 때는 결과 확인 버튼으로 고정 (선택 여부 관계없이 유지) */
+              <button onClick={handleSubmit} className="btn-next result-btn">
+                결과 확인 →
+              </button>
             )}
           </div>
+
+          {/* 왼쪽 하단 이전 문항 버튼 제어 영역 */}
           {currentIndex > 0 && (
             <div className="nav-left">
               <button
