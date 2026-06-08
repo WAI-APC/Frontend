@@ -1,0 +1,233 @@
+.container {
+  min-height: 100vh;
+  background-color: #333333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: sans-serif;
+}
+.card {
+  background: white;
+  max-width: 800px;
+  width: 100%;
+  padding: 40px;
+  border-radius: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+.logo {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  font-size: 24px;
+  font-weight: 900;
+  font-style: italic;
+  color: #f48fb1;
+}
+.question {
+  margin-top: 80px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  white-space: pre-wrap;
+  margin-bottom: 40px;
+  color: #333;
+}
+.options {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 20px;
+  width: 100%;
+  margin-top: 40px;
+}
+.option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 70px;
+}
+.circle-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #e5e7eb;
+  background: white;
+  cursor: pointer;
+  transition: 0.2s;
+  outline: none;
+}
+.circle-btn.selected {
+  background: #f8bbd0;
+  border-color: #f8bbd0;
+}
+.option-label {
+  font-size: 12px;
+  color: #888;
+  text-align: center;
+  word-break: keep-all;
+  line-height: 1.2;
+}
+.nav-right {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+}
+.nav-left {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+}
+.btn-prev {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+}
+.btn-next {
+  background: #f8bbd0;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 14px;
+}
+.btn-next:hover {
+  background: #f48fb1;
+}
+
+.result-card {
+  background: white;
+  max-width: 600px;
+  width: 100%;
+  padding: 40px;
+  border-radius: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+.result-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.badge {
+  background: #f3e5f5;
+  color: #9c27b0;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.title-type {
+  font-size: 40px;
+  font-weight: 900;
+  color: #7e57c2;
+  margin: 10px 0;
+}
+.desc-type {
+  color: #666;
+  font-size: 14px;
+}
+
+.radar-container {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.report-box {
+  background: #fafafa;
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid #eee;
+}
+.report-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+.report-item {
+  display: flex;
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(244, 143, 177, 0.1);
+  border: 1px solid #fce4ec;
+  align-items: flex-start;
+}
+.report-icon {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  background: #fff0f5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-right: 16px;
+  color: #f48fb1;
+}
+.report-text-title {
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: #333;
+  font-size: 16px;
+}
+.report-text-desc {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 30px;
+}
+.btn-outline {
+  flex: 1;
+  padding: 14px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font-weight: bold;
+  color: #666;
+  cursor: pointer;
+  font-size: 14px;
+}
+.btn-primary {
+  flex: 1;
+  padding: 14px;
+  background: #7e57c2;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+.loading-text {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
